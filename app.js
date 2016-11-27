@@ -5,7 +5,7 @@ const router = require('koa-router')();
 const path = require('path');
 const koaBody = require('koa-body')();
 const request = require('request')
-const quakes = require('./handlers/quakes');
+const handlers = require('./handlers/quakes');
 
 const app = Koa();
 // const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
@@ -19,7 +19,7 @@ router.get('/', function* (next) {
   this.body = 'Hello, Root'
 });
 router.get('/webhook', hook);
-router.get('/quakedata', quakes.getQuakeData);
+router.get('/quakedata', handlers.getQuakeData);
 router.post('/webhook', koaBody, hookPost)
 
 app
@@ -104,6 +104,11 @@ function receivedMessage(event) {
         break;
       case 'quake':
         sendQuakeMessage()
+        sendTextMessage(senderID, "Geting Quake Data…")
+        break;
+      case /quake/i.test(messageText):
+        sendQuakeMessage()
+        sendTextMessage(senderID, "reged quake data")
         break;
 
       default:
