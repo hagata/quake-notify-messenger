@@ -21,7 +21,7 @@ module.exports = {
         console.log('url', url);
         return new Promise((resolve) =>{
             fetch(url).then((response) => {
-            resolve(response);
+            resolve(response.json());
             })
         })
     }

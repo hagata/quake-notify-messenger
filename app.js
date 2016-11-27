@@ -103,12 +103,8 @@ function receivedMessage(event) {
         sendTextMessage(senderID, "This is so Generic");
         break;
       case 'quake':
-        sendQuakeMessage()
-        sendTextMessage(senderID, "Geting Quake Data…")
-        break;
-      case /quake/i.test(messageText):
-        sendQuakeMessage()
-        sendTextMessage(senderID, "reged quake data")
+        sendQuakeMessage(senderID)
+        sendTextMessage(senderID, "Getting Quake Data…")
         break;
 
       default:
@@ -123,9 +119,14 @@ function sendGenericMessage(recipientId, messageText) {
   // To be expanded in later sections
 }
 
-function sendQuakeMessage() {
+function sendQuakeMessage(recipientId) {
       handlers.getQuakeData().then((data) => {
         console.log('Data from quake', data);
+        
+        // construct a quake message from data
+        let messageText = `data coming soon`;
+        //send message to user
+        sendTextMessage(recipientId, messageText)
       })
 }
 
