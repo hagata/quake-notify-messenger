@@ -5,7 +5,7 @@ const router = require('koa-router')();
 const path = require('path');
 const koaBody = require('koa-body')();
 const request = require('request')
-
+const quakes = require('./handlers/quakes');
 
 const app = Koa();
 // const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
@@ -19,6 +19,7 @@ router.get('/', function* (next) {
   this.body = 'Hello, Root'
 });
 router.get('/webhook', hook);
+router.get('/quakedata', quakes.getQuakeData);
 router.post('/webhook', koaBody, hookPost)
 
 app
@@ -99,7 +100,10 @@ function receivedMessage(event) {
     // and send back the example. Otherwise, just echo the text we received.
     switch (messageText) {
       case 'generic':
-        sendGenericMessage(senderID);
+        sendTextMessage(senderID, "This is so Generic");
+        break;
+      case 'quake':
+        sendQuakeMessage()
         break;
 
       default:
@@ -112,6 +116,12 @@ function receivedMessage(event) {
 
 function sendGenericMessage(recipientId, messageText) {
   // To be expanded in later sections
+}
+
+function sendQuakeMessage() {
+      handlers.getQuakeData().then((data) => {
+        console.log('Data from quake', data);
+      })
 }
 
 function sendTextMessage(recipientId, messageText) {
@@ -127,6 +137,10 @@ function sendTextMessage(recipientId, messageText) {
   callSendAPI(messageData);
 }
 
+/**
+ * Sends message through SendAPI.
+ * @param {any} messageData
+ */
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
@@ -136,8 +150,8 @@ function callSendAPI(messageData) {
 
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
+      let recipientId = body.recipient_id;
+      let messageId = body.message_id;
 
       console.log("Successfully sent generic message with id %s to recipient %s",
         messageId, recipientId);
@@ -149,5 +163,8 @@ function callSendAPI(messageData) {
   });
 }
 
+/**
+ * Server Startup.
+ */
 app.listen(PORT);
 console.log(`Server running on port : ${PORT}`)
