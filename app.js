@@ -3,6 +3,8 @@
 const Koa = require('koa');
 const router = require('koa-router')();
 const path = require('path');
+const koaBody = require('koa-body')();
+
 
 const app = Koa();
 // const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
@@ -16,8 +18,10 @@ router.get('/', function* (next) {
   this.body = 'Hello, Root'
 });
 router.get('/webhook', hook);
+router.post('/webhook', koaBody, hookPost)
 
-app.use(router.routes())
+app
+  .use(router.routes())
   .use(router.allowedMethods())
 
 /**
@@ -37,11 +41,13 @@ function* hook(hub) {
   }
 };
 
-router.post('/webhook', function* () {
+function* hookPost(next) {
   const req = this.request;
-  const data = req.body;
-  console.log('request', req);
-  console.log('data', data);
+  const data = this.request.body;
+  console.log('BODY', this.request.body);
+  console.log('\n\nrequest', req);
+
+
   // Make sure this is a page subscription
   if (data.object === 'page') {
 
@@ -67,7 +73,7 @@ router.post('/webhook', function* () {
     // will time out and we will keep trying to resend.
     this.response.status = 200;
   }
-});
+};
 
 function receivedMessage(event) {
   // Putting a stub for now, we'll expand it in the following steps
