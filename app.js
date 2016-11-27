@@ -7,9 +7,9 @@ const route = require('koa-route');
 // // const render = require('./lib/render');
 // const views = require('co-views');
 const path = require('path');
-
 const app = Koa();
 // const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+const PORT = process.env.PORT || 3000;
 const VERIFY_TOKEN = 'quake_bot_verify_token';
 /**
  * Setup middleware
@@ -35,5 +35,5 @@ function* hook(req, res) {
   }
 };
 
-app.listen(3000);
-console.log(`Server running on port :3000`)
+app.listen(PORT);
+console.log(`Server running on port : ${PORT}`)
