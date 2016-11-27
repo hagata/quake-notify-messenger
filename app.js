@@ -41,6 +41,7 @@ router.post('/webhook', function* () {
   const req = this.request;
   const data = req.body;
   console.log('request', req);
+  console.log('data', data);
   // Make sure this is a page subscription
   if (data.object === 'page') {
 
