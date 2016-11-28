@@ -11,14 +11,7 @@ module.exports = {
             'lat=37.757815',
             'lon=-122.5076403',
             'maxradiuskm=100',
-            `starttime=${day}`].join('&');
-        // const params ={
-        //     format: 'geojson',
-        //     lat: 37.757815,
-        //     lon: -122.5076403,
-        //     maxradiuskm: 100
-        //     };
-        // const req = new Request(url, params);
+            `starttime=${day.toISOString()}`].join('&');
 
         console.log("Getting quake data")
         console.log('url', url);

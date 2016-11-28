@@ -122,9 +122,10 @@ function sendGenericMessage(recipientId, messageText) {
 function sendQuakeMessage(recipientId) {
       handlers.getQuakeData().then((data) => {
         console.log('Data from quake', data);
+        let count = data.metadata.count;
         let latest = data.features[0];
-        let count = latest.count;
         let title = latest.title;
+
         // construct a quake message from data
         let countMessageText = `in the last 24 hours there have been ${count} earthquakes`;
         let latestMessageText = `The latest earthquake was: ${title}`;
