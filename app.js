@@ -11,7 +11,7 @@ const tests = require('./handlers/tests');
 const app = Koa();
 // const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PORT = process.env.PORT || 3000;
-const VERIFY_TOKEN = 'quake_bot_verify_token';
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 /**
  * Setup middleware
