@@ -3,12 +3,15 @@ const fetch = require('node-fetch');
 
 module.exports = {
     getQuakeData: (data) => {
+        let day = new Date();
+        day.setDate(day.getDate() - 1);
         const url = [
             'http://earthquake.usgs.gov/fdsnws/event/1/query?',
             'format=geojson',
             'lat=37.757815',
             'lon=-122.5076403',
-            'maxradiuskm=100'].join('&');
+            'maxradiuskm=100'].join('&'),
+            `starttime=${day}`;
         // const params ={
         //     format: 'geojson',
         //     lat: 37.757815,
