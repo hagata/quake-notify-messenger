@@ -6,6 +6,7 @@ const path = require('path');
 const koaBody = require('koa-body')();
 const request = require('request')
 const handlers = require('./handlers/quakes');
+const tests = require('./handlers/tests');
 
 const app = Koa();
 // const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
@@ -20,6 +21,7 @@ router.get('/', function* (next) {
 });
 router.get('/webhook', hook);
 router.get('/quakedata', handlers.getQuakeData);
+router.get('/testdata', tests.getTestData);
 router.post('/webhook', koaBody, hookPost)
 
 app
@@ -124,7 +126,7 @@ function sendQuakeMessage(recipientId) {
         console.log('Data from quake', data);
         let count = data.metadata.count;
         let latest = data.features[0];
-        let title = latest.title;
+        let title = latest.properties.title;
 
         // construct a quake message from data
         let countMessageText = `in the last 24 hours there have been ${count} earthquakes`;
