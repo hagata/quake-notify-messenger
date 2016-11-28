@@ -10,8 +10,8 @@ module.exports = {
             'format=geojson',
             'lat=37.757815',
             'lon=-122.5076403',
-            'maxradiuskm=100'].join('&'),
-            `starttime=${day}`;
+            'maxradiuskm=100',
+            `starttime=${day}`].join('&');
         // const params ={
         //     format: 'geojson',
         //     lat: 37.757815,
